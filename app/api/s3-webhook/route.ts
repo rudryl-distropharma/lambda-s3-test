@@ -3,7 +3,7 @@ import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
 import { MongoClient } from 'mongodb';
 import * as XLSX from 'xlsx';
 import { parse } from 'csv-parse';
-import * as pdfParse from 'pdf-parse';
+// import * as pdfParse from 'pdf-parse';
 import { findMedicationColumn } from '@/app/utils/medicationDetector';
 
 const s3Client = new S3Client({
@@ -56,6 +56,7 @@ export async function POST(request: Request) {
 
     // Process the file based on its type
     const fileExtension = key.split('.').pop()?.toLowerCase();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let drugData: any[] = [];
 
     console.log(`Processing file with extension: ${fileExtension}`);
@@ -108,7 +109,7 @@ export async function POST(request: Request) {
     );
   }
 }
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function processCSV(buffer: Buffer): Promise<any[]> {
   return new Promise((resolve, reject) => {
     parse(buffer, {
@@ -135,7 +136,7 @@ async function processCSV(buffer: Buffer): Promise<any[]> {
     });
   });
 }
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function processExcel(buffer: Buffer): Promise<any[]> {
   const workbook = XLSX.read(buffer);
   const sheetName = workbook.SheetNames[0];
