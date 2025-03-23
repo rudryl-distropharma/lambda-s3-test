@@ -1,36 +1,104 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Pharmacy Inventory Management System
+
+A comprehensive solution for managing pharmacy inventory through automated file processing. This system allows pharmacy staff to upload inventory files in various formats (CSV, Excel, PDF), processes them in the background, and provides a clean interface to view and search the medication inventory.
+
+## Features
+
+- **File Upload**: Upload pharmacy inventory files in CSV, Excel, or PDF formats
+- **Automatic File Processing**: Files are automatically processed after upload using an S3-triggered webhook
+- **Intelligent Column Detection**: The system automatically detects columns containing medication names, quantities, and prices
+- **Real-time Status Updates**: Monitor the status of file processing in real-time
+- **Searchable Inventory**: View and search through the complete medication inventory
+
+## Intelligent Medication Detection
+
+The system uses advanced techniques to identify medication names in uploaded files, regardless of column headers or file format:
+
+- Detects common medication prefixes and suffixes in both English and French
+- Identifies medication-related terms and formulations
+- Recognizes strength units and dosage formats
+- Works with various file structures and formatting
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Node.js 18+ and npm
+- MongoDB database
+- AWS S3 bucket for file storage
+- AWS Lambda (for event-driven processing)
+
+### Environment Setup
+
+Create a `.env.local` file with the following configuration:
+
+```
+MONGODB_URI=your_mongodb_connection_string
+AWS_REGION=your_aws_region
+AWS_ACCESS_KEY_ID=your_access_key
+AWS_SECRET_ACCESS_KEY=your_secret_key
+S3_BUCKET_NAME=your_bucket_name
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Installation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Clone the repository
+2. Install dependencies:
+   ```
+   npm install
+   ```
+3. Start the development server:
+   ```
+   npm run dev
+   ```
+4. Open [http://localhost:3000](http://localhost:3000) in your browser
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## File Requirements
 
-## Learn More
+The system can process files in the following formats:
 
-To learn more about Next.js, take a look at the following resources:
+- **CSV files**: Standard comma-separated values
+- **Excel files**: .xlsx or .xls formats
+- **PDF files**: Text-based PDFs with tabular data
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The system will automatically identify:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- The column containing medication names
+- The column containing quantities (numeric values)
+- The column containing prices (numeric values)
 
-## Deploy on Vercel
+No specific column order or naming convention is required.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Processing Pipeline
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. User uploads a file through the web interface
+2. File is stored in the S3 bucket
+3. S3 event triggers the webhook
+4. File is processed based on its format
+5. Processed data is stored in MongoDB
+6. UI displays real-time status updates
+
+## Development
+
+### Project Structure
+
+- `/app` - Next.js application
+  - `/api` - API routes
+  - `/utils` - Utility functions
+- `/components` - React components
+- `/public` - Static assets
+
+### Adding Support for New File Formats
+
+To add support for additional file formats, extend the file processing logic in `app/api/s3-webhook/route.ts`.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgements
+
+- Next.js for the React framework
+- MongoDB for the database
+- AWS S3 for file storage
+- TailwindCSS for styling
