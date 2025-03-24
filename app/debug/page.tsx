@@ -17,7 +17,7 @@ export default function DebugPage() {
         </p>
         <ol className="list-decimal list-inside space-y-1 ml-4">
           <li>Select a file to upload using the file input above</li>
-          <li>Check the file details to ensure it's the correct file</li>
+          <li>Check the file details to ensure it&apos;s the correct file</li>
           <li>After upload completes, check the response or error details</li>
           <li>Look at browser console for additional information</li>
         </ol>

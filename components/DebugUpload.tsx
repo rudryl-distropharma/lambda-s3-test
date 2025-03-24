@@ -5,6 +5,7 @@ import { useState } from 'react';
 export function DebugUpload() {
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [response, setResponse] = useState<any | null>(null);
   const [fileDetails, setFileDetails] = useState<{ name: string; size: number; type: string } | null>(null);
 
